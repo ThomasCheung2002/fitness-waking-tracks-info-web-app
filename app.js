@@ -1,6 +1,12 @@
 const webPageLanguage = document.getElementById('language').className;
 console.log('language: '+webPageLanguage);
 
+function initialize() {
+	if (navigator.onLine) {
+		retrieveContacts();	
+	}
+}
+
 function w3_open() {
     document.getElementById("Sidebar").style.display = "block";
     document.getElementById("Overlay").style.display = "block";
@@ -15,15 +21,21 @@ function showDetail(id) {
 }
 
 //read data.json
-const request = new XMLHttpRequest();
-request.open('GET', 'data.json', false); 
-request.send(null);
-
-if (request.status === 200) {
-  var tracksData = JSON.parse(request.responseText);
-  console.log(tracksData);
-} else {
-  console.error('Error:', request.status);
+function retrieveContacts() {
+	const request = new XMLHttpRequest();
+	const url = "data.json";
+	
+	request.onreadystatechange = function() {
+		if (request.readyState === 4) {
+			var trails = JSON.parse(request.response).trails;
+			displayTrails(trails);
+			
+			const localStorage = window.localStorage;
+			if (localStorage) {
+				localStorage.setItem("trails", JSON.stringify(trails));
+			}
+		}
+	}
 }
 
 tracksData.forEach((track,trackListIndex) => {
