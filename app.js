@@ -16,10 +16,11 @@ function showDetail(id) {
 
 //read data.json
 const request = new XMLHttpRequest();
-request.open('GET', 'data.json', false); 
-request.send(null);
+const url = 'data.json';
+//request.open('GET', 'data.json', false); 
+//request.send(null);
 
-if (request.status === 200) {
+if (request.status === 4) {
   var tracksData = JSON.parse(request.responseText);
   console.log(tracksData);
 } else {
